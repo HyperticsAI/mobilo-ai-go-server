@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"go-server/config"
 	"go-server/models"
 	"go-server/routes"
 	"log"
@@ -17,13 +18,14 @@ func main() {
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
+	dbConfig := config.LoadDBConfig()
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-		os.Getenv("DB_PORT"))
+		dbConfig.DBHost,
+		dbConfig.DBUser,
+		dbConfig.DBPassword,
+		dbConfig.DBName,
+		dbConfig.DBPort)
 
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {

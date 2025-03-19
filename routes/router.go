@@ -9,6 +9,11 @@ import (
 func SetupRouter() *gin.Engine {
 	router := gin.Default()
 
+	// health check
+	router.GET("/health", func(c *gin.Context) {
+		c.JSON(200, gin.H{"message": "OK"})
+	})
+
 	// add v1 prefix
 	v1 := router.Group("/api/v1")
 
